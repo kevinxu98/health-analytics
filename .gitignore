@@ -1,2 +1,5 @@
-#venv files
+# python environment files
 .venv
+
+# mypy cache files
+.mypy_cache

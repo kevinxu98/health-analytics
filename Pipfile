@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 fastapi = "*"
+mypy = "*"
 
 [dev-packages]
 
@@ -12,4 +13,6 @@ fastapi = "*"
 python_version = "3.12"
 
 [scripts]
-dev = "fastapi dev main.py"
+dev = "fastapi dev app/main.py"
+prod = "fastapi run app/main.py"
+build = "mypy app"
