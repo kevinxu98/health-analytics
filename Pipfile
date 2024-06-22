@@ -13,5 +13,6 @@ mypy = "*"
 python_version = "3.12"
 
 [scripts]
-start = "fastapi dev app/main.py"
+dev = "fastapi dev app/main.py"
+prod = "fastapi run app/main.py"
 build = "mypy app"
