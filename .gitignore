@@ -1,14 +1,15 @@
-# python environment files
+# virtual environment
 .venv
 
-# mypy cache files
-.mypy_cache
-
-# jetbrains IDE files
+# ide files
 .idea
 
-# dotenv files
+# cache
+.mypy_cache
+__pycache__
+
+# envs
 .env
 
-# python cache
-__pycache__
+
+
