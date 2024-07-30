@@ -3,3 +3,9 @@
 
 # mypy cache files
 .mypy_cache
+
+# jetbrains IDE files
+.idea
+
+# dotenv files
+.env
