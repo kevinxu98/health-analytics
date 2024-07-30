@@ -62,6 +62,7 @@ def create_profile(name, user_profile):
     try:
         profile = {
             'id': utils.IDGenerator.generate_id(),
+            'name': name, 
             'profile': user_profile
         }
         container.create_item(body=profile)
