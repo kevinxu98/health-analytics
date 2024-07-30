@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from app.api.queries.user_queries import router as query_router
-from app.api.commands.user_commands import router as command_router
+from app.controllers.queries.user_queries import router as query_router
+from app.controllers.commands.user_commands import router as command_router
 
 app = FastAPI(title="Healthcare Analytics Microservice", version="0.0.1")
 
