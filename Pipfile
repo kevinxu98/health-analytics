@@ -28,6 +28,7 @@ name = "pypi"
  urllib3 = "==1.26.15"
  virtualenv = "==20.22.0"
  virtualenv-clone = "==0.5.7"
+pydantic = "*"
 
 [dev-packages]
 

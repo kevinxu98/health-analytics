@@ -1,0 +1,16 @@
+app/
+│
+├── api/
+│   ├── commands/
+│   ├── queries/
+│   └── routes/
+│       └── profile.py
+│
+├── dto/
+│   └── profile.py
+│
+├── events/
+├── aggregates/
+├── services/
+├── repositories/
+└── main.py
