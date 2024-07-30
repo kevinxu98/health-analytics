@@ -1,5 +1,15 @@
-# python environment files
+# virtual environment
 .venv
 
-# mypy cache files
+# ide files
+.idea
+
+# cache
 .mypy_cache
+__pycache__
+
+# envs
+.env
+
+
+
