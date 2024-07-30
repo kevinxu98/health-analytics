@@ -3,13 +3,13 @@ import azure.cosmos.cosmos_client as cosmos_client
 import azure.cosmos.exceptions as exceptions
 from azure.cosmos.partition_key import PartitionKey
 import datetime
-import config
-import utils.utils as utils
+import app.db.db_configs as db_configs
+import app.utils.utils as utils
 
-HOST = config.settings['host']
-MASTER_KEY = config.settings['master_key']
-DATABASE_ID = config.settings['database_id']
-CONTAINER_ID = config.settings['container_id']
+HOST = db_configs.settings['host']
+MASTER_KEY = db_configs.settings['master_key']
+DATABASE_ID = db_configs.settings['database_id']
+CONTAINER_ID = db_configs.settings['container_id']
 
 client = cosmos_client.CosmosClient(HOST, {'masterKey': MASTER_KEY})
 

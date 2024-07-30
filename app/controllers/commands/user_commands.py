@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Query
 from app.dtos.dtos import ProfileDTO
-from db.database import create_profile
+from app.db.database import create_profile
 
 router = APIRouter()
 
