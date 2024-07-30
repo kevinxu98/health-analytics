@@ -7,8 +7,8 @@ load_dotenv()
 # retrieve environment variables
 account_host = os.environ.get('ACCOUNT_HOST')
 account_key = os.environ.get('ACCOUNT_KEY')
-database_id = os.environ.get('COSMOS_DATABASE')
-container_id = os.environ.get('COSMOS_CONTAINER')
+database_id = os.environ.get('DATABASE_ID')
+container_id = os.environ.get('CONTAINER_ID')
 
 # Create a settings dictionary with environment variables
 settings = {
