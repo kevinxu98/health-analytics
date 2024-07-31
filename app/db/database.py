@@ -29,7 +29,7 @@ except exceptions.CosmosResourceExistsError:
     container = db.get_container_client(CONTAINER_ID)
     print('Container with id \'{0}\' was found'.format(CONTAINER_ID))
 
-
+# throughput scaling
 def scale_container(container):
     print('\nScaling Container\n')
     try:

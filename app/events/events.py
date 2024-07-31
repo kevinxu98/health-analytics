@@ -1,5 +1,7 @@
+
 from dataclasses import dataclass
 
 @dataclass
-class CreateUserCommand:
+class UserCreatedEvent:
+    user_id: str
     name: str
