@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 import uvicorn
-from app.controllers.queries.user_queries import router as query_router
-from app.controllers.commands.user_commands import router as command_router
+from app.controllers.query_controllers.query_controlller import router as query_router
+from app.controllers.command_controllers.command_controller import router as command_router
 
 app = FastAPI(title="Healthcare Analytics Microservice", version="0.0.1")
 
