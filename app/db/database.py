@@ -1,33 +1,44 @@
-import azure.cosmos.documents as documents
 import azure.cosmos.cosmos_client as cosmos_client
 import azure.cosmos.exceptions as exceptions
 from azure.cosmos.partition_key import PartitionKey
-import datetime
 import app.db.db_configs as db_configs
-import app.utils.utils as utils
 
 HOST = db_configs.settings['host']
 MASTER_KEY = db_configs.settings['master_key']
 DATABASE_ID = db_configs.settings['database_id']
-CONTAINER_ID = db_configs.settings['container_id']
+EVENT_CONTAINER_ID = db_configs.settings['event_container_id']
+PROJECTION_CONTAINER_ID = db_configs.settings['projection_container_id']
 
 client = cosmos_client.CosmosClient(HOST, {'masterKey': MASTER_KEY})
 
-# setup database
-try:
-    db = client.create_database(id=DATABASE_ID)
-    print('Database with id \'{0}\' created'.format(DATABASE_ID))
-except exceptions.CosmosResourceExistsError:
-    db = client.get_database_client(DATABASE_ID)
-    print('Database with id \'{0}\' was found'.format(DATABASE_ID))
+# database
+def create_database():
+    try:
+        db = client.create_database(id=DATABASE_ID)
+        print('Database with id \'{0}\' created'.format(DATABASE_ID))
+        return db
+    except exceptions.CosmosResourceExistsError:
+        db = client.get_database_client(DATABASE_ID)
+        print('Database with id \'{0}\' was found'.format(DATABASE_ID))
+        return db
 
-# setup container
-try:
-    container = db.create_container(id=CONTAINER_ID, partition_key=PartitionKey(path='/partitionKey'))
-    print('Container with id \'{0}\' created'.format(CONTAINER_ID))
-except exceptions.CosmosResourceExistsError:
-    container = db.get_container_client(CONTAINER_ID)
-    print('Container with id \'{0}\' was found'.format(CONTAINER_ID))
+# events container
+def create_events_container(db):
+    try:
+        db.create_container(id=EVENT_CONTAINER_ID, partition_key=PartitionKey(path='/partitionKey'))
+        print('Container with id \'{0}\' created'.format(EVENT_CONTAINER_ID))
+    except exceptions.CosmosResourceExistsError:
+        db.get_container_client(EVENT_CONTAINER_ID)
+        print('Container with id \'{0}\' was found'.format(EVENT_CONTAINER_ID))
+
+# projection container
+def create_projections_container(db):
+    try:
+        db.create_container(id=PROJECTION_CONTAINER_ID , partition_key=PartitionKey(path='/partitionKey'))
+        print('Container with id \'{0}\' created'.format(PROJECTION_CONTAINER_ID ))
+    except exceptions.CosmosResourceExistsError:
+        db.get_container_client(PROJECTION_CONTAINER_ID )
+        print('Container with id \'{0}\' was found'.format(PROJECTION_CONTAINER_ID ))
 
 # throughput scaling
 def scale_container(container):
@@ -46,27 +57,9 @@ def scale_container(container):
         else:
             raise e
 
-
-def profile_schema(id, name, age, params, risk):
-    profile = {
-        'id': id,
-        'name': name,
-        'age': age,
-        'params': params,
-        'risk': risk
-    }
-    return profile
-
-def create_profile(name, user_profile):
-    print('\nCreating Profile\n')
-    try:
-        profile = {
-            'id': utils.IDGenerator.generate_id(),
-            'name': name, 
-            'profile': user_profile
-        }
-        container.create_item(body=profile)
-    except exceptions.CosmosHttpResponseError as e:
-        print(e.http_error_message)
-
+def inialize_storage():
+    db = create_database()
+    create_events_container(db)
+    create_projections_container(db)
+    return db
 
