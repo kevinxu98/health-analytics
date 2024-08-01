@@ -1,8 +1,9 @@
 from pydantic import BaseModel
 from app.dtos.dtos import HealthSummaryDTO
+from app.utils.utils import IDGenerator, TimestampGenerator
 
 class ProfileCreatedEvent(BaseModel):
-    id: str
+    id: str 
     tenant_id: str
     user_id: str
     timestamp: str
