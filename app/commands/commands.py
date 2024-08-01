@@ -2,8 +2,8 @@ from pydantic import BaseModel
 
 
 class CreateProfileCommand(BaseModel):
-    id: str
     tenant_id: str
+    id: str
 
 
 class UpdateProfileCommand(BaseModel):

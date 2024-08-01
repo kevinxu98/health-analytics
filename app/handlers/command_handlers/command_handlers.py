@@ -10,8 +10,8 @@ class CreateProfileCommandHandler:
     async def handle(self, command: CreateProfileCommand):
         # create the aggregate instance
         profile_aggregate = ProfileAggregate(
-            id=command.id,
-            tenant_id=command.tenant_id
+            tenant_id=command.tenant_id,
+            id=command.id
         )
         # apply business logic through the aggregate
         event = profile_aggregate.create_profile()

@@ -17,8 +17,7 @@ class ProfileAggregate:
     def create_profile(self):
         # business logic for creating a profile
         return ProfileCreatedEvent(
-            id=self.id,
             tenant_id=self.tenant_id,
-            partitionKey=self.tenant_id,
+            id=self.id,
             version=self.version + 1
         )

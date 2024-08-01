@@ -13,7 +13,7 @@ async def test_command_endpoint():
 @router.post("/create_profile")
 async def create_profile(tenant_id: str=Query(...), id: str=Query(...)):
     try:
-        return await CreateProfileCommandHandler(EventStore()).handle(CreateProfileCommand(id=id, tenant_id=tenant_id))
+        return await CreateProfileCommandHandler(EventStore()).handle(CreateProfileCommand(tenant_id=tenant_id, id=id))
     except Exception as e:
         return {"error": str(e)}
     
