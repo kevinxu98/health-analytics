@@ -1,6 +1,8 @@
 from pydantic import BaseModel
 
 class ProfileCreatedEvent(BaseModel):
-    tenant_id: str
     id: str
+    tenant_id: str
+    user_id: str
+    timestamp: str
     version: int
