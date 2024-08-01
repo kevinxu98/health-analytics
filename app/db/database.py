@@ -56,6 +56,15 @@ def scale_container(container):
             print(e.http_error_message)
         else:
             raise e
+        
+def get_database():
+    return client.get_database_client(DATABASE_ID)
+
+def get_event_container():
+    return get_database().get_container_client(EVENT_CONTAINER_ID)
+
+def get_projection_container():
+    return get_database().get_container_client(PROJECTION_CONTAINER_ID)
 
 def inialize_storage():
     db = create_database()

@@ -1,15 +1,23 @@
-import uuid
-from app.commands.commands import CreateUserCommand
-from app.aggregates.profile_aggregate import ProfileAggregate
+from app.commands.commands import CreateProfileCommand
+from app.events.events import ProfileCreatedEvent
 from app.db.event_store import EventStore
+from app.aggregates.profile_aggregate import ProfileAggregate
 
-class UserCommandHandler:
+class CreateProfileCommandHandler:
     def __init__(self, event_store: EventStore):
         self.event_store = event_store
 
-    def handle_create_user(self, command: CreateUserCommand):
-        user_id = str(uuid.uuid4())
-        user = ProfileAggregate(user_id, command.name)
-        events = user.get_uncommitted_events()
-        self.event_store.save(events)
-        return user_id
+    async def handle(self, command: CreateProfileCommand):
+        # create the aggregate instance
+        profile_aggregate = ProfileAggregate(
+            tenant_id=command.tenant_id,
+            user_id=command.user_id
+        )
+        
+        # apply business logic through the aggregate
+        event = profile_aggregate.create_profile()
+        
+        # save the event to the event store
+        await self.event_store.save_event(event)
+        
+        return event

@@ -1,6 +1,5 @@
-
 from fastapi import APIRouter
-
+from app.queries.queries import GetProfileQuery
 router = APIRouter()
 
 @router.get("/test_query_endpoint")

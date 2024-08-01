@@ -1,5 +1,13 @@
-from dataclasses import dataclass
+from pydantic import BaseModel
 
-@dataclass
-class CreateUserCommand:
-    name: str
+
+class CreateProfileCommand(BaseModel):
+    tenant_id: str
+    user_id: str
+
+
+class UpdateProfileCommand(BaseModel):
+    tenant_id: str
+    user_id: str
+    profile: dict
+
