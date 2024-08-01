@@ -8,8 +8,10 @@ class CreateProfileCommand(BaseModel):
     user_id: str
     timestamp: str
 
-class UpdateProfileCommand(BaseModel):
-    tenant_id: str
+class UpdateHealthSummaryCommand(BaseModel):
     id: str
-    profile: dict
+    tenant_id: str
+    user_id: str
+    timestamp: str
+    health_summary: str
 

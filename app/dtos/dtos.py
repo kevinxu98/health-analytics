@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-class ProfileDTO(BaseModel):
+class HealthSummaryDTO(BaseModel):
     gender: str
     age: int
     race: str
