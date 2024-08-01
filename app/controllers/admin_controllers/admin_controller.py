@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.db.database import inialize_storage
+from app.db.database import create_database, create_containers
 
 
 router = APIRouter()
@@ -8,11 +8,18 @@ router = APIRouter()
 def test_query_endpoint():
     return {"message": "success"}
 
-@router.post("/create_database")
-def create_database():
+@router.post("/generate_database")
+def generate_database():
     try:
-        inialize_storage()
+        create_database()
         return {"message": "database created successfully"}
     except Exception as e:
         return {"error": str(e)}
 
+@router.post("/generate_containers")
+def generate_containers():
+    try:
+        create_containers()
+        return {"message": "containers created successfully"}
+    except Exception as e:
+        return {"error": str(e)}

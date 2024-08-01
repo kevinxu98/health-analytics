@@ -25,7 +25,7 @@ def create_database():
 # events container
 def create_events_container(db):
     try:
-        db.create_container(id=EVENT_CONTAINER_ID, partition_key=PartitionKey(path='/partitionKey'))
+        db.create_container(id=EVENT_CONTAINER_ID, partition_key=PartitionKey(path='/tenant_id'))
         print('Container with id \'{0}\' created'.format(EVENT_CONTAINER_ID))
     except exceptions.CosmosResourceExistsError:
         db.get_container_client(EVENT_CONTAINER_ID)
@@ -34,11 +34,17 @@ def create_events_container(db):
 # projection container
 def create_projections_container(db):
     try:
-        db.create_container(id=PROJECTION_CONTAINER_ID , partition_key=PartitionKey(path='/partitionKey'))
+        db.create_container(id=PROJECTION_CONTAINER_ID , partition_key=PartitionKey(path='/tenant_id'))
         print('Container with id \'{0}\' created'.format(PROJECTION_CONTAINER_ID ))
     except exceptions.CosmosResourceExistsError:
         db.get_container_client(PROJECTION_CONTAINER_ID )
         print('Container with id \'{0}\' was found'.format(PROJECTION_CONTAINER_ID ))
+
+# create containers
+def create_containers():
+    db = create_database()
+    create_events_container(db)
+    create_projections_container(db)
 
 # throughput scaling
 def scale_container(container):
@@ -65,10 +71,4 @@ def get_event_container():
 
 def get_projection_container():
     return get_database().get_container_client(PROJECTION_CONTAINER_ID)
-
-def inialize_storage():
-    db = create_database()
-    create_events_container(db)
-    create_projections_container(db)
-    return db
 
