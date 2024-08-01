@@ -25,7 +25,7 @@ async def create_profile(tenant_id: str=Query(...), user_id: str=Query(...)):
     except Exception as e:
         return {"error": str(e)}
     
-@router.post("/update_health_summary")
+@router.put("/update_health_summary")
 async def update_profile(health_summary: HealthSummaryDTO, tenant_id: str=Query(...), user_id: str=Query(...)):
     try:
         return await UpdateHealthSummaryCommandHandler(EventStore()).handle(

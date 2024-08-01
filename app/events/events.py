@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from app.dtos.dtos import HealthSummaryDTO
 
 class ProfileCreatedEvent(BaseModel):
     id: str
@@ -13,5 +14,6 @@ class HealthSummaryUpdatedEvent(BaseModel):
     tenant_id: str
     user_id: str
     timestamp: str
-    health_summary: str
+    event_type: str = "HealthSummaryUpdatedEvent"
+    health_summary: HealthSummaryDTO
     version: int

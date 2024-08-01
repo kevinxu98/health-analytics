@@ -1,7 +1,7 @@
 from typing import List
+from app.commands.commands import UpdateHealthSummaryCommand
 from app.dtos.dtos import HealthSummaryDTO
 from app.events.events import HealthSummaryUpdatedEvent, ProfileCreatedEvent
-from app.db.event_store import EventStore
 
 class ProfileAggregate:
     def __init__(self, id: str, tenant_id: str, user_id: str, timestamp: str, version: int = 0):
@@ -10,6 +10,7 @@ class ProfileAggregate:
         self.user_id = user_id
         self.timestamp = timestamp
         self.version = version
+        self.health_summary = None  # Initialize health summary if needed
 
     def apply(self, event):
         if isinstance(event, ProfileCreatedEvent):
@@ -32,13 +33,13 @@ class ProfileAggregate:
             version=self.version + 1
         )
     
-    def update_health_summary(self, health_summary: HealthSummaryDTO):
+    def update_health_summary(self, command: UpdateHealthSummaryCommand):
         return HealthSummaryUpdatedEvent(
-            id=self.id,
+            id=command.id,
             tenant_id=self.tenant_id,
             user_id=self.user_id,
-            timestamp=self.timestamp,
-            health_summary=health_summary,
+            timestamp=command.timestamp,
+            health_summary=command.health_summary,
             version=self.version + 1
         )
 

@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from app.utils.utils import IDGenerator
+from app.dtos.dtos import HealthSummaryDTO
 
 
 class CreateProfileCommand(BaseModel):
@@ -13,5 +13,5 @@ class UpdateHealthSummaryCommand(BaseModel):
     tenant_id: str
     user_id: str
     timestamp: str
-    health_summary: str
+    health_summary: HealthSummaryDTO
 

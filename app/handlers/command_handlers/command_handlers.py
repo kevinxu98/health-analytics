@@ -27,15 +27,16 @@ class UpdateHealthSummaryCommandHandler:
         self.event_store = event_store
 
     async def handle(self, command: UpdateHealthSummaryCommand):
-        profile_aggregate = ProfileAggregate(
-            id=command.id,
-            tenant_id=command.tenant_id,
-            user_id=command.user_id, 
-            timestamp=command.timestamp
-        )
-        # apply business logic through the aggregate
-        event = profile_aggregate.update_health_summary(command.health_summary)
-       
+        # Retrieve existing events for the user
+        events = await self.event_store.get_events(command.user_id)
+
+        # Load aggregate from the retrieved events
+        profile_aggregate = ProfileAggregate.load_from_events(events)
+
+        # Apply business logic through the aggregate
+        event = profile_aggregate.update_health_summary(command)
+
+        # Save the new event
         await self.event_store.save_event(event)
         
         return event
