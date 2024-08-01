@@ -12,13 +12,10 @@ class ProfileAggregate:
 
     def apply(self, event):
         if isinstance(event, ProfileCreatedEvent):
-            self.id = event.id
             self.tenant_id = event.tenant_id
             self.user_id = event.user_id
-            self.timestamp = event.timestamp
             self.version = event.version
         elif isinstance(event, HealthSummaryUpdatedEvent):
-            self.timestamp = event.timestamp
             self.health_summary = event.health_summary
             self.version = event.version
 
