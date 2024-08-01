@@ -11,7 +11,7 @@ class CreateProfileCommandHandler:
         # create the aggregate instance
         profile_aggregate = ProfileAggregate(
             tenant_id=command.tenant_id,
-            user_id=command.user_id
+            id=command.id
         )
         
         # apply business logic through the aggregate

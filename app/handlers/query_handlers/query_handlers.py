@@ -9,7 +9,7 @@ class ProfileQueryHandler:
         events = await self.event_store.get_events(tenant_id)
         if not events:
             return None
-        profile = ProfileAggregate(tenant_id, events[0].user_id)
+        profile = ProfileAggregate(tenant_id, events[0].id)
         for event in events:
             profile.apply(event)
         return profile.to_dict()
