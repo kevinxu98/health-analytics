@@ -1,13 +1,13 @@
 from pydantic import BaseModel
+from app.dtos.dtos import HealthSummaryDTO
 
 
 class CreateProfileCommand(BaseModel):
     tenant_id: str
-    id: str
+    user_id: str
 
-
-class UpdateProfileCommand(BaseModel):
+class UpdateHealthSummaryCommand(BaseModel):
     tenant_id: str
-    id: str
-    profile: dict
+    user_id: str
+    health_summary: HealthSummaryDTO
 
