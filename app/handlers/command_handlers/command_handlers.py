@@ -7,7 +7,7 @@ class CreateProfileCommandHandler:
         self.event_store = event_store
 
     async def handle(self, command: CreateProfileCommand):
-        # create the aggregate instance
+        # create aggregate instance
         profile_aggregate = ProfileAggregate(
             tenant_id=command.tenant_id,
             user_id=command.user_id, 
@@ -46,13 +46,9 @@ class ComputeRiskCommandHandler:
     async def handle(self, command: ComputeRiskCommand):
   
         events = await self.event_store.get_events(command.user_id)
-
-        # load aggregate 
         profile_aggregate = ProfileAggregate.load_from_events(events)
 
         event = profile_aggregate.compute_risk()
-
-        # save event
         await self.event_store.save_event(event)
         
         return event
