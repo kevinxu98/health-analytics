@@ -1,15 +1,12 @@
-from app.db.event_store import EventStore
+from app.db.event_store import ProjectionStore
 from app.aggregates.profile_aggregate import ProfileAggregate
+from app.queries.queries import GetProfileQuery
 
-class ProfileQueryHandler:
-    def __init__(self, event_store: EventStore):
-        self.event_store = event_store
+class GetProfileQueryHandler:
 
-    async def get_profile(self, tenant_id: str):
-        events = await self.event_store.get_events(tenant_id)
-        if not events:
-            return None
-        profile = ProfileAggregate(tenant_id, events[0].id)
-        for event in events:
-            profile.apply(event)
-        return profile.to_dict()
+    def __init__(self, projection_store: ProjectionStore):
+        self.projection_store = projection_store
+
+    async def handle(self, query: GetProfileQuery):
+        profile_view = await self.projection_store.get(query.id)
+        return profile_view.dict()
