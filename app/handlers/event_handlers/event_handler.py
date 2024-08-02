@@ -16,6 +16,7 @@ class ProfileEventHandler:
         profile_view = ProfileView(
             tenant_id=event.tenant_id,
             id=event.user_id,
+            version=event.version,
             timestamp=event.timestamp
         )
         await self.projection_store.save(profile_view)
@@ -25,4 +26,5 @@ class ProfileEventHandler:
         if existing_profile:
             existing_profile.health_summary = event.health_summary
             existing_profile.timestamp = event.timestamp
+            existing_profile.version = event.version
             await self.projection_store.save(existing_profile)

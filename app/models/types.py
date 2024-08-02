@@ -6,4 +6,5 @@ class ProfileView(BaseModel):
     tenant_id: str
     id: str
     timestamp: str
+    version: int
     health_summary: Optional[HealthSummaryDTO] = None

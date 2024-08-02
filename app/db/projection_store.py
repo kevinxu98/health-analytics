@@ -16,12 +16,11 @@ class ProjectionStore:
             print(e.http_error_message)
 
     async def get(self, user_id: str) -> ProfileView:
-        query = f"SELECT * FROM c WHERE c.user_id='{user_id}'"
+        query = f"SELECT * FROM c WHERE c.id='{user_id}'"
         try:
             items = list(self.projection_container.query_items(query=query, enable_cross_partition_query=True))
             if items:
                 return ProfileView(**items[0])
-            return None
         except exceptions.CosmosHttpResponseError as e:
             print(e.http_error_message)
             return None
