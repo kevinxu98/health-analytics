@@ -11,3 +11,7 @@ class UpdateHealthSummaryCommand(BaseModel):
     user_id: str
     health_summary: HealthSummaryDTO
 
+class ComputeRiskCommand(BaseModel):
+    tenant_id: str
+    user_id: str
+

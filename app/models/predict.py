@@ -1,17 +1,13 @@
 import catboost
 import os
+from typing import List
 
 class HealthPredict:
 
-    def __init__(self):
-        pass
-
-    def predict(self, feat):
+    @staticmethod
+    def predict_risk(params: List):
         os.chdir('app/models')
-        self.model = catboost.CatBoostClassifier()
-        self.model.load_model('model_prod/Catboost1')
-        return self.model.predict(feat)
+        model = catboost.CatBoostClassifier()
+        model.load_model('renders/Catboost1')
+        return model.predict(params)
     
-
-obj_1 = HealthPredict()
-print(obj_1.predict([1, 20, 1, 1, 3, 2, 1, 0, 0.9, 2000, 25, 378, 150, 40, 22, 23, 120, 80, 1, 1, 5, 1]))

@@ -1,6 +1,6 @@
 from azure.cosmos import exceptions
 from app.db.projection_store import ProjectionStore
-from app.events.events import HealthSummaryUpdatedEvent, ProfileCreatedEvent
+from app.events.events import HealthSummaryUpdatedEvent, ProfileCreatedEvent, RiskComputedEvent
 from app.db.database import client, get_database, get_event_container, get_projection_container
 from app.handlers.event_handlers.event_handler import ProfileEventHandler
 
@@ -35,6 +35,8 @@ class EventStore:
             return ProfileCreatedEvent(**event_data)
         elif event_type == "HealthSummaryUpdatedEvent":
             return HealthSummaryUpdatedEvent(**event_data)
+        elif event_type == "RiskComputedEvent":
+            return RiskComputedEvent(**event_data)
         else:
             raise ValueError(f"Unknown event type: {event_type}")
         

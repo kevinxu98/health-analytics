@@ -1,4 +1,4 @@
-from app.commands.commands import CreateProfileCommand, UpdateHealthSummaryCommand
+from app.commands.commands import ComputeRiskCommand, CreateProfileCommand, UpdateHealthSummaryCommand
 from app.db.event_store import EventStore
 from app.aggregates.profile_aggregate import ProfileAggregate
 
@@ -7,7 +7,7 @@ class CreateProfileCommandHandler:
         self.event_store = event_store
 
     async def handle(self, command: CreateProfileCommand):
-        # create the aggregate instance
+        # create aggregate instance
         profile_aggregate = ProfileAggregate(
             tenant_id=command.tenant_id,
             user_id=command.user_id, 
@@ -25,16 +25,31 @@ class UpdateHealthSummaryCommandHandler:
         self.event_store = event_store
 
     async def handle(self, command: UpdateHealthSummaryCommand):
-        # Retrieve existing events for the user
+        # retrieve existing events
         events = await self.event_store.get_events(command.user_id)
 
-        # Load aggregate from the retrieved events
+        # load aggregate from the retrieved events
         profile_aggregate = ProfileAggregate.load_from_events(events)
 
-        # Apply business logic through the aggregate
+        # apply new business logic through the aggregate
         event = profile_aggregate.update_health_summary(command)
 
-        # Save the new event
+        # save event
         await self.event_store.save_event(event)
         
         return event
+
+class ComputeRiskCommandHandler:
+    def __init__(self, event_store: EventStore):
+        self.event_store = event_store
+
+    async def handle(self, command: ComputeRiskCommand):
+  
+        events = await self.event_store.get_events(command.user_id)
+        profile_aggregate = ProfileAggregate.load_from_events(events)
+
+        event = profile_aggregate.compute_risk()
+        await self.event_store.save_event(event)
+        
+        return event
+        

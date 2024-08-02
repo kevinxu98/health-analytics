@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Query
-from app.commands.commands import CreateProfileCommand, UpdateHealthSummaryCommand
+from app.commands.commands import ComputeRiskCommand, CreateProfileCommand, UpdateHealthSummaryCommand
 from app.dtos.dtos import HealthSummaryDTO
-from app.handlers.command_handlers.command_handlers import CreateProfileCommandHandler, UpdateHealthSummaryCommandHandler
+from app.handlers.command_handlers.command_handlers import ComputeRiskCommandHandler, CreateProfileCommandHandler, UpdateHealthSummaryCommandHandler
 from app.db.event_store import EventStore
 from app.utils.utils import IDGenerator, TimestampGenerator
 
@@ -23,7 +23,7 @@ async def create_profile(tenant_id: str=Query(...), user_id: str=Query(...)):
     except Exception as e:
         return {"error": str(e)}
     
-@router.post("/update_health_summary")
+@router.put("/update_health_summary")
 async def update_profile(health_summary: HealthSummaryDTO, tenant_id: str=Query(...), user_id: str=Query(...)):
     try:
         return await UpdateHealthSummaryCommandHandler(EventStore()).handle(
@@ -31,6 +31,18 @@ async def update_profile(health_summary: HealthSummaryDTO, tenant_id: str=Query(
                 tenant_id=tenant_id,
                 user_id=user_id,
                 health_summary=health_summary
+                )
+            )
+    except Exception as e:
+        return {"error": str(e)}
+
+@router.put("/compute_risk")
+async def compute_risk(tenant_id: str=Query(...), user_id: str=Query(...)):
+    try:
+        return await ComputeRiskCommandHandler(EventStore()).handle(
+            ComputeRiskCommand(
+                tenant_id=tenant_id,
+                user_id=user_id
                 )
             )
     except Exception as e:
